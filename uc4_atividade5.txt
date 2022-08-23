@@ -1,0 +1,271 @@
+(1)********CRIACAO DATABASE***********
+**************************************
+>use empresa
+<'switched to db empresa'
+empresa>
+
+********criacao da collection: Cargo******
+db.cargo.insertOne({
+  descricao:["Gerente","Vendedor","Servicos Gerais","Supervisor de Vendas","Estoquista"],
+  salario:[5000,2500,1500,2800,2000],
+  comissao:[0,10,0,10,0]
+})
+{ acknowledged: true,
+  insertedId: ObjectId("62e5da11208d99d62949a506") }
+empresa
+
+***********criacao da collection: usuario************
+db.usuario.insertOne({
+  login:['admin','gerencia','dev','silvioc','amarov','marcosv','domingass','marinaf','joanaf','apariciod','filomenal','ralf'],
+  senha:[123,321,456,789,142,145,785,6987,4875,1236,47785,47896]
+})
+{ acknowledged: true,
+  insertedId: ObjectId("62e5dd53208d99d62949a507") }
+empresa
+
+(2)**********criacao da collection:funcionario**********
+*********//populacao do database//******************
+db.funcionario.insertOne({
+  nome:'Sílvio Cortês',
+  telefone:'99 7898-1234',
+  cpf:'84537768061',
+  cargo:{
+    descricao:'Vendedor',
+    salario:2500,
+    comissao:10
+  }
+})
+{ acknowledged: true,
+  insertedId: ObjectId("62e5e2b8208d99d62949a508") }
+empresa
+
+db.funcionario.insertOne({
+  nome:"Amaro Valadão",
+  telefone:"99 7534-1234",
+  cpf:"03074142057",
+  cargo:{
+    descricao:"Vendedor",
+    salario:2500,
+    comissao:10
+  },
+  usuario:{
+    login:"amarov",
+    senha:142
+  }
+})
+{ acknowledged: true,
+  insertedId: ObjectId("62e70efb4819633c1641bb0f") }
+
+db.funcionario.insertOne({
+  nome:"Marcos Valadão",
+  telefone:"99 7534-7897",
+  cpf:"40967947081",
+  cargo:{
+    descricao:"Vendedor",
+    salario:2500,
+    comissao:10
+  },
+  usuario:{
+    login:"marcosv",
+    senha:145
+  }
+})
+{ acknowledged: true,
+  insertedId: ObjectId("62e720624819633c1641bb10") }
+empresa
+
+db.funcionario.insertOne({
+  nome:"Domingas Souza Sá",
+  telefone:"99 7534-1234",
+  cpf:"51077408048",
+  cargo:{
+    descricao:"Supervisor de Vendas",
+    salario:2800,
+    comissao:10
+  },
+  usuario:{
+    login:"domingass",
+    senha:785
+  }
+})
+{ acknowledged: true,
+  insertedId: ObjectId("62e721034819633c1641bb11") }
+empresa
+
+db.funcionario.insertOne({
+  nome:"Marina Frazão",
+  telefone:"99 7589-1854",
+  cpf:"21788502000",
+  cargo:{
+    descricao:"Gerente",
+    salario:5000,
+    comissao:0
+  },
+  usuario:{
+    login:"marinaf",
+    senha:6987
+  }
+})
+{ acknowledged: true,
+  insertedId: ObjectId("62e721b64819633c1641bb12") }
+empresa
+
+
+
+db.funcionario.insertOne({
+  nome:"Joana Freitas",
+  telefone:"99 7589-7534",
+  cpf:"85690938025",
+  cargo:{
+    descricao:"Serviços Gerais",
+    salario:1500,
+    comissao:0
+  },
+  usuario:{
+    login:"joanaf",
+    senha:4875
+  }
+})
+{ acknowledged: true,
+  insertedId: ObjectId("62e7224d4819633c1641bb13") }
+empresa
+
+db.funcionario.insertOne({
+  nome:"Aparício Dias",
+  telefone:"99 7514-7884",
+  cpf:"14131448025",
+  cargo:{
+    descricao:"Serviços Gerais",
+    salario:1500,
+    comissao:0
+  },
+  usuario:{
+    login:"apariciod",
+    senha:1236
+  }
+})
+{ acknowledged: true,
+  insertedId: ObjectId("62e722e34819633c1641bb14") }
+empresa
+
+db.funcionario.insertOne({
+  nome:"Filomena da Luz",
+  telefone:"99 7584-7884",
+  cpf:"19641782070",
+  cargo:{
+    descricao:"Estoquista",
+    salario:2000,
+    comissao:0
+  },
+  usuario:{
+    login:"filomenal",
+    senha:47785
+  }
+})
+{ acknowledged: true,
+  insertedId: ObjectId("62e7237c4819633c1641bb15") }
+empresa
+
+
+db.funcionario.insertOne({
+  nome:"ralf",
+  telefone:"99-7856-5455",
+  cpf:"4212456789",
+  cargo:{
+    descricao:"Supervisor de Vendas",
+    salario:2800,
+    comissao:10
+  },
+  usuario:{
+    login:"ralf",
+    senha:47896
+  }
+})
+{ acknowledged: true,
+  insertedId: ObjectId("62e724254819633c1641bb16") }
+empresa
+
+(3)********************atualizacao de um campo************
+**********************************************************
+
+db.funcionario.updateOne(
+  {"nome":"Sílvio Cortês"},
+  {$set: {"usuario":{ "login":"silvioc", "senha":789}}
+  }
+  );
+{ acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 0,
+  upsertedCount: 0 }
+
+
+(4)****************************************************
+****************BUSCA DE FUNCIONARIO POR NOME**********
+db.funcionario.find({nome:"Sílvio Cortês"})
+{ _id: ObjectId("62e5e2b8208d99d62949a508"),
+  nome: 'Sílvio Cortês',
+  telefone: '99 7898-1234',
+  cpf: '84537768061',
+  cargo: { descricao: 'Vendedor', salario: 2500, comissao: 10 },
+  usuario: { login: 'silvioc', senha: 789 } }
+empresa
+
+
+(5)****************************************************
+*************busca de funcionario por cargo************
+db.funcionario.find({"cargo.descricao":"Vendedor"})
+{ _id: ObjectId("62e5e2b8208d99d62949a508"),
+  nome: 'Sílvio Cortês',
+  telefone: '99 7898-1234',
+  cpf: '84537768061',
+  cargo: { descricao: 'Vendedor', salario: 2500, comissao: 10 },
+  usuario: { login: 'silvioc', senha: 789 } }
+{ _id: ObjectId("62e70efb4819633c1641bb0f"),
+  nome: 'Amaro Valadão',
+  telefone: '99 7534-1234',
+  cpf: '03074142057',
+  cargo: { descricao: 'Vendedor', salario: 2500, comissao: 10 },
+  usuario: { login: 'amarov', senha: 142 } }
+{ _id: ObjectId("62e720624819633c1641bb10"),
+  nome: 'Marcos Valadão',
+  telefone: '99 7534-7897',
+  cpf: '40967947081',
+  cargo: { descricao: 'Vendedor', salario: 2500, comissao: 10 },
+  usuario: { login: 'marcosv', senha: 145 } }
+empresa
+
+
+***********USANDO DOIS CAMPOS****************
+db.funcionario.find({nome:"Sílvio Cortês", "cargo.descricao":"Vendedor"})
+{ _id: ObjectId("62e5e2b8208d99d62949a508"),
+  nome: 'Sílvio Cortês',
+  telefone: '99 7898-1234',
+  cpf: '84537768061',
+  cargo: { descricao: 'Vendedor', salario: 2500, comissao: 10 },
+  usuario: { login: 'silvioc', senha: 789 } }
+empresa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
